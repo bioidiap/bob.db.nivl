@@ -4,17 +4,24 @@
 
 
 =======================================================
- CUHK Face Sketch Database (CUFS)
+Long Distance Heterogeneous Face Database (LDHF-DB)
 =======================================================
 
-This package contains the access API and descriptions for the `CUHK Face Sketch Database (CUFS) <http://mmlab.ie.cuhk.edu.hk/archive/facesketch.html>`. 
+This package contains the access API and descriptions for the `Long Distance Heterogeneous Face Database (LDHF-DB) <http://biolab.korea.ac.kr/database/>`. 
 The actual raw data for the database should be downloaded from the original URL. 
 This package only contains the Bob accessor methods to use the DB directly from python, with the original protocol of the database.
 
-CUHK Face Sketch database (CUFS) is for research on face sketch synthesis and face sketch recognition.
-It includes 188 faces from the Chinese University of Hong Kong (CUHK) student database, 123 faces from the AR database, and 295 faces from the XM2VTS database.
-There are 606 faces in total.
-For each face, there is a sketch drawn by an artist based on a photo taken in a frontal pose, under normal lighting condition, and with a neutral expression.
+Long Distance Heterogeneous Face Database (LDHF-DB) is for research on VIS-NIR face recognition.
+It includes 100 identities faces captured in both VIS and NIR (at nighttime) in different standoffs: 1m, 60m, 100m and 150m.
+
+This package implements the cross-disntance and cross-spectral evaluation protocol described in the paper::
+
+  D. Kang, H. Han, A. K. Jain, and S.-W. Lee, "Nighttime Face Recognition at Large Standoff: Cross-Distance and Cross-Spectral Matching", Pattern Recognition, Vol. 47, No. 12, 2014, pp. 3750-3766.
+
+.. note::
+
+  This protocol consists of 10-fold cross-validation letting 90 identities for training and 10 for evaluation for each fold.
+  The 1m VIS images are used for enrollment and the NIR images with different standoffs (1m, 60m, 100m and 150m) are used for probing.
 
 
 You would normally not install this package unless you are maintaining it. 
@@ -36,7 +43,7 @@ The package is available in two different distribution formats:
 1. You can download it from `PyPI <http://pypi.python.org/pypi>`_, or
 
 2. You can download it in its source form from `its git repository
-   <https://github.com/bioidiap/bob.db.cuhk_cufs>`_.
+   <https://github.com/bioidiap/bob.db.ldhf>`_.
 
 You can mix and match points 1/2 and a/b above based on your requirements. Here
 are some examples:
@@ -51,7 +58,7 @@ script)::
 
     install_requires=[
       ...
-      "bob.db.cuhk_cufs",
+      "bob.db.ldhf",
     ],
 
 Proceed normally with your ``boostrap/buildout`` steps and you should be all
