@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf-8 :
 # Tiago de Freitas Pereira <tiago.pereira@idiap.ch>
-# Thu Apr 16 16:39:01 CEST 2015
+# Thu Oct 15 17:35:01 CEST 2015
 #
 # Copyright (C) 2011-2014 Idiap Research Institute, Martigny, Switzerland
 #
@@ -21,9 +21,9 @@ from setuptools import setup, find_packages
 
 setup(
 
-    name='bob.db.cuhk_cufs',
+    name='bob.db.ldhf',
     version='0.0.0a1',
-    description='CUHK Face Sketch Database (CUFS)',
+    description='Long Distance Heterogeneous Face Database (LDHF)',
     url='',
     license='GPLv3',
     keywords = "",
@@ -37,9 +37,7 @@ setup(
 
     install_requires=[
       'setuptools',
-      'bob.db.xm2vts',
-      'bob.db.arface',
-      'bob.db.verification.utils' 
+      'bob.db.base',
     ],
 
     namespace_packages = [
@@ -50,7 +48,7 @@ setup(
     entry_points = {
       # declare database to bob
       'bob.db': [
-        'cuhk_cufs = bob.db.cuhk_cufs.driver:Interface',
+        'ldhf = bob.db.ldhf.driver:Interface',
       ],
     },
 
