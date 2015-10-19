@@ -67,7 +67,8 @@ def add_files(session, image_dir, annotation_dir, verbose = True):
       client_name = f.split("_")[0]
       if(client_name.find("dircksum")>0): continue #Removing the trash            
       client_id   = int(client_name)
-      image_name        = f
+      image_name,_        = os.path.splitext(f)
+      image_name = os.path.join(d,image_name)
 
       if verbose>=1: print("  Adding file {0}".format(image_name))
 

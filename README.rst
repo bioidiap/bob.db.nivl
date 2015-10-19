@@ -3,6 +3,11 @@
 .. Thu Apr 16 16:39:01 CEST 2015
 
 
+.. image:: https://img.shields.io/badge/github-master-0000c0.png
+   :target: https://github.com/bioidiap/bob.db.ldhf/tree/master
+.. image:: https://img.shields.io/badge/original-data--files-a000a0.png
+   :target: http://biolab.korea.ac.kr/database/
+
 =======================================================
 Long Distance Heterogeneous Face Database (LDHF-DB)
 =======================================================
