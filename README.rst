@@ -4,29 +4,22 @@
 
 
 .. image:: https://img.shields.io/badge/github-master-0000c0.png
-   :target: https://github.com/bioidiap/bob.db.ldhf/tree/master
+   :target: https://github.com/bioidiap/bob.db.nivl/tree/master
 .. image:: https://img.shields.io/badge/original-data--files-a000a0.png
-   :target: http://biolab.korea.ac.kr/database/
+   :target: http://www3.nd.edu/~kwb/publications.htm
 
 =======================================================
-Long Distance Heterogeneous Face Database (LDHF-DB)
+Near-Infrared and Visible-Light (NIVL) Dataset
 =======================================================
 
-This package contains the access API and descriptions for the `Long Distance Heterogeneous Face Database (LDHF-DB) <http://biolab.korea.ac.kr/database/>`. 
+This package contains the access API and descriptions for the `Near-Infrared and Visible-Light (NIVL) Dataset <http://www3.nd.edu/~kwb/face_recognition.htm>`. 
 The actual raw data for the database should be downloaded from the original URL. 
 This package only contains the Bob accessor methods to use the DB directly from python, with the original protocol of the database.
 
-Long Distance Heterogeneous Face Database (LDHF-DB) is for research on VIS-NIR face recognition.
-It includes 100 identities faces captured in both VIS and NIR (at nighttime) in different standoffs: 1m, 60m, 100m and 150m.
+NIVL is for research on VIS-NIR face recognition.
+It includes 574 identities faces captured in both VIS and NIR.
 
-This package implements the cross-disntance and cross-spectral evaluation protocol described in the paper::
-
-  D. Kang, H. Han, A. K. Jain, and S.-W. Lee, "Nighttime Face Recognition at Large Standoff: Cross-Distance and Cross-Spectral Matching", Pattern Recognition, Vol. 47, No. 12, 2014, pp. 3750-3766.
-
-.. note::
-
-  This protocol consists of 10-fold cross-validation letting 90 identities for training and 10 for evaluation for each fold.
-  The 1m VIS images are used for enrollment and the NIR images with different standoffs (1m, 60m, 100m and 150m) are used for probing.
+  Bernhard, John, et al. "Near-IR to Visible Light Face Matching: Effectiveness of Pre-Processing Options for Commercial Matchers."
 
 
 You would normally not install this package unless you are maintaining it. 
@@ -48,7 +41,7 @@ The package is available in two different distribution formats:
 1. You can download it from `PyPI <http://pypi.python.org/pypi>`_, or
 
 2. You can download it in its source form from `its git repository
-   <https://github.com/bioidiap/bob.db.ldhf>`_.
+   <https://github.com/bioidiap/bob.db.nivl>`_.
 
 You can mix and match points 1/2 and a/b above based on your requirements. Here
 are some examples:
@@ -63,11 +56,11 @@ script)::
 
     install_requires=[
       ...
-      "bob.db.ldhf",
+      "bob.db.nivl",
     ],
 
 Proceed normally with your ``boostrap/buildout`` steps and you should be all
-set. That means you can now import the ``bob.db.cuhk_cufs`` namespace into your scripts.
+set. That means you can now import the ``bob.db.nivl`` namespace into your scripts.
 
 Modify your buildout.cfg and download from git
 ==============================================
@@ -81,8 +74,8 @@ lines::
   ...
   extensions = mr.developer
   auto-checkout = *
-  eggs = bob.db.cuhk_cufs
+  eggs = bob.db.nivl
 
   [sources]
-  bob.db.cuhk_cufs = git https://github.com/bioidiap/bob.db.cuhk_cufs.git
+  bob.db.nivl = git https://github.com/bioidiap/bob.db.nivl.git
   ...
