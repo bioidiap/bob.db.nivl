@@ -6,43 +6,147 @@
  User's Guide
 ==============
 
-This package contains the access API and descriptions for the Long Distance Heterogeneous Face Database `LDHF-DB`_ database.
+This package contains the access API and descriptions for the Near-Infrared and Visible-Light (`NIVL`_) Dataset.
 It only contains the Bob_ accessor methods to use the DB directly from python, with our certified protocols.
 The actual raw data for the database should be downloaded from the original URL.
 
 The Database Interface
 ----------------------
 
-The :py:class:`bob.db.ldhf.Database` complies with the standard biometric verification database as described in :ref:`commons`, implementing both interfaces :py:class:`bob.db.verification.utils.SQLiteDatabase` and :py:class:`bob.db.verification.utils.ZTDatabase`.
+The :py:class:`bob.db.nivl.Database` complies with the standard biometric verification database as described in :ref:`commons`, implementing both interfaces :py:class:`bob.db.verification.utils.SQLiteDatabase` and :py:class:`bob.db.verification.utils.ZTDatabase`.
 
 
-LDHF-DB Protocols
+NIVL Protocols
 ---------------
 
-There are 10 protocols implemented in this database ('split1','split2','split3','split4','split5','split6','split7','split8','split9','split10').
-
-The protocols correspond to 10-fold cross-validation letting 90 identities for training and 10 for evaluation for each fold (randomly selected), as described in:
-
-.. code-block:: latex
-
-  @article{kang2014nighttime,
-    title={Nighttime face recognition at large standoff: Cross-distance and cross-spectral matching},
-    author={Kang, Dongoh and Han, Hu and Jain, Anil K and Lee, Seong-Whan},
-    journal={Pattern Recognition},
-    volume={47},
-    number={12},
-    pages={3750--3766},
-    year={2014},
-    publisher={Elsevier}
-  }
+In total we provide 14 evaluation protocols and they are split in three groups.
+The next subsections will describe each group.
 
 
-According to the mentioned publication were implemented the cross-spectral and the cross-distance evaluations where the 1m VIS images are used for enrollment and the NIR images with different standoffs (1m, 60m, 100m and 150m) are used for probing.
+Original evaluation protocols
+=============================
+
+The goal of the original paper with the NIVL was to evaluate the error rates of commercial face recognition matchers under different image processing algorithms.
+For that, the authors created two evaluation protocols.
+With all the 574 subjects, (in one single set for evaluation) the first protocol matched NIR images from the spring 2012 acquisitions against the VIS images from fall 2011. 
+The second protocol matched NIR images from the fall 2011 acquisitions against the VIS images from the spring 2012 acquisitions.
+The both protocols are named as: ```original_2011-2012``` and ```original_2012-2011```.
+To fetch the object files using these protocols use the following piece of code:
+
+.. code-block:: python
+
+   >>> import bob.db.nivl
+   >>> db = bob.db.nivl.Database()
+   >>> #original_2011-2012   
+   >>> enrollment_data_2011 = db.objects(protocol='original_2011-2012', groups='eval', purposes="enroll")
+   >>> probing_data_2011    = db.objects(protocol='original_2011-2012', groups='eval', purposes="probe")
+   >>> 
+   >>> #original_2012-2011   
+   >>> enrollment_data_2012 = db.objects(protocol='original_2012-2011', groups='eval', purposes="enroll")
+   >>> probing_data_2012    = db.objects(protocol='original_2012-2011', groups='eval', purposes="probe")
+   >>>              
 
 
-.. todo::
-   Explain further particularities of the :py:class:`bob.db.ldhf.Database`.
+As it possible to see, these protocols do not provide a set for train algorithms.
+For that reason, we developed the two other groups of protocols.
 
 
-.. _LDHF-DB: http://biolab.korea.ac.kr/database/
+IDIAP comparison protocols
+==========================
+
+This group of protocols was designed to be a heterogeneous face **verification** reference.
+The 574 clients were split in three groups called ```world```, ```dev``` and ```eval```.
+
+The ```world``` set is composed by 229 clients and it is designed to be used as the training set.
+
+The ```dev``` set is composed by 172 clients and it is designed to tune the hyper-parameters of a hererogeneous face recognition approach and to be the decision threshold reference.
+
+The ```eval``` set is composed by 173 clients and it is used to assess the final unbiased system performance.
+
+With that division we developed two protocols: ```idiap-comparison_2011-VIS-NIR``` and ```idiap-comparison_2012-VIS-NIR```.
+
+In the ```idiap-comparison_2011-VIS-NIR```, VIS images from 2011 are used as enrollment and the NIR images (from both years) are used for probing.
+To fetch the object files using this protocol use the following piece of code:
+
+.. code-block:: python
+
+   >>> import bob.db.nivl
+   >>> db = bob.db.nivl.Database()   
+   >>> #Training set
+   >>> train      = db.objects(protocol='idiap-comparison_2011-VIS-NIR', groups='world')   
+   >>>
+   >>> #Development set
+   >>> dev_enroll = db.objects(protocol='idiap-comparison_2011-VIS-NIR', groups='dev', purposes="enroll")
+   >>> dev_probe = db.objects(protocol='idiap-comparison_2011-VIS-NIR', groups='dev', purposes="probe")
+   >>> 
+   >>> #Evaluation set
+   >>> eval_enroll = db.objects(protocol='idiap-comparison_2011-VIS-NIR', groups='eval', purposes="enroll")
+   >>> eval_probe = db.objects(protocol='idiap-comparison_2011-VIS-NIR', groups='eval', purposes="probe")
+   >>>              
+
+
+In the ```idiap-comparison_2012-VIS-NIR```, VIS images from 2012 are used as enrollment and the NIR images (from both years) are used for probing.
+To fetch the object files using this protocol use the following piece of code:
+
+.. code-block:: python
+
+   >>> import bob.db.nivl
+   >>> db = bob.db.nivl.Database()   
+   >>> #Training set
+   >>> train      = db.objects(protocol='idiap-comparison_2012-VIS-NIR', groups='world')   
+   >>>
+   >>> #Development set
+   >>> dev_enroll = db.objects(protocol='idiap-comparison_2012-VIS-NIR', groups='dev', purposes="enroll")
+   >>> dev_probe = db.objects(protocol='idiap-comparison_2012-VIS-NIR', groups='dev', purposes="probe")
+   >>> 
+   >>> #Evaluation set
+   >>> eval_enroll = db.objects(protocol='idiap-comparison_2012-VIS-NIR', groups='eval', purposes="enroll")
+   >>> eval_probe = db.objects(protocol='idiap-comparison_2012-VIS-NIR', groups='eval', purposes="probe")
+   >>>              
+
+
+IDIAP search protocols
+======================
+
+This group of protocols was designed to be a heterogeneous face **identification** reference.
+The 574 clients were split in two groups called ```world``` and ```dev```.
+
+The ```world``` set is composed by 344 clients and it is designed to be used as the training set.
+
+The ```dev``` set is composed by 230 clients and it is used to assess the final unbiased system performance.
+
+With that division we developed two groups of protocols: ```idiap-search_2011-VIS-NIR_split[1-5]``` and ```idiap-search_2011-VIS-NIR_split[1-5]```.
+
+In the ```idiap-search_2011-VIS-NIR_split[1-5]```, is composed by five splits ([1-5]) and the VIS images from 2011 are used as enrollment and the NIR images (from both years) are used for probing.
+To fetch the object files using this protocol (let's say the first split) use the following piece of code:
+
+.. code-block:: python
+
+   >>> import bob.db.nivl
+   >>> db = bob.db.nivl.Database()   
+   >>> #Training set
+   >>> train      = db.objects(protocol='idiap-search_2011-VIS-NIR_split1', groups='world')   
+   >>>
+   >>> #Evaluation set
+   >>> dev_enroll = db.objects(protocol='idiap-search_2011-VIS-NIR_split1', groups='dev', purposes="enroll")
+   >>> dev_probe = db.objects(protocol='idiap-search_2011-VIS-NIR_split1', groups='dev', purposes="probe")
+   >>> 
+
+
+In the ```idiap-search_2012-VIS-NIR_split[1-5]```, is composed by five splits ([1-5]) and the VIS images from 2012 are used as enrollment and the NIR images (from both years) are used for probing.
+To fetch the object files using this protocol (let's say the first split) use the following piece of code:
+
+.. code-block:: python
+
+   >>> import bob.db.nivl
+   >>> db = bob.db.nivl.Database()   
+   >>> #Training set
+   >>> train      = db.objects(protocol='idiap-search_2012-VIS-NIR_split1', groups='world')   
+   >>>
+   >>> #Evaluation set
+   >>> dev_enroll = db.objects(protocol='idiap-search_2012-VIS-NIR_split1', groups='dev', purposes="enroll")
+   >>> dev_probe = db.objects(protocol='idiap-search_2012-VIS-NIR_split1', groups='dev', purposes="probe")
+   >>> 
+
+.. _NIVL: http://www3.nd.edu/~kwb/publications.htm
 .. _bob: https://www.idiap.ch/software/bob

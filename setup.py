@@ -21,9 +21,9 @@ from setuptools import setup, find_packages
 
 setup(
 
-    name='bob.db.ldhf',
+    name='bob.db.nivl',
     version='0.0.0a1',
-    description='Long Distance Heterogeneous Face Database (LDHF)',
+    description='Near-Infrared and Visible-Light (NIVL) Dataset',
     url='',
     license='GPLv3',
     keywords = "",
@@ -48,7 +48,7 @@ setup(
     entry_points = {
       # declare database to bob
       'bob.db': [
-        'ldhf = bob.db.ldhf.driver:Interface',
+        'nivl = bob.db.nivl.driver:Interface',
       ],
     },
 

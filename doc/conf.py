@@ -58,12 +58,12 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Long Distance Heterogeneous Face Database (LDHF-DB) (Bob API)'
+project = u'Near-Infrared and Visible-Light (NIVL) Dataset (Bob API)'
 import time
 copyright = u'%s, Idiap Research Institute' % time.strftime('%Y')
 
 # Grab the setup entry
-distribution = pkg_resources.require('bob.db.ldhf')[0]
+distribution = pkg_resources.require('bob.db.nivl')[0]
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -187,7 +187,7 @@ html_favicon = 'img/favicon.ico'
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'bob_db_ldhf_doc'
+htmlhelp_basename = 'bob_db_nivl_doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -201,7 +201,7 @@ latex_font_size = '10pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'bob_db_ldhf.tex', u'Bob',
+  ('index', 'bob_db_nivl.tex', u'Bob',
    u'Biometrics Group, Idiap Research Institute', 'manual'),
 ]
 
@@ -236,7 +236,7 @@ rst_epilog = ''
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'bob', u'Long Distance Heterogeneous Face Database (LDHF-DB) (Bob API) Documentation', [u'Idiap Research Institute'], 1)
+    ('index', 'bob', u'Near-Infrared and Visible-Light (NIVL) Dataset (Bob API) Documentation', [u'Idiap Research Institute'], 1)
 ]
 
 # Default processing flags for sphinx
