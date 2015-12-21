@@ -44,7 +44,6 @@ PURPOSES   = ('train', 'enroll', 'probe')
 
 
 
-
 def test01_protocols_purposes_groups():
 
   #testing protocols
@@ -109,7 +108,6 @@ def test04_idiap_search_protocols():
   #Testing first protocol
   for i in range(1,6):
     protocol = "idiap-search_2011-VIS-NIR_split%s"%i
-
     assert len(bob.db.nivl.Database().objects(protocol=protocol, groups='world'))                   == idiap_search_2011_VIS_NIR_splitn['world']
     assert len(bob.db.nivl.Database().objects(protocol=protocol, groups='dev', purposes="enroll"))  == idiap_search_2011_VIS_NIR_splitn['dev-enroll']
     assert len(bob.db.nivl.Database().objects(protocol=protocol, groups='dev', purposes="probe"))   == idiap_search_2011_VIS_NIR_splitn['dev-probe']    
@@ -136,8 +134,29 @@ def test05_annotations():
       assert f.annotations()["leye"][1] > 0
 
 
+def test06_search_tobjects():
+  """
+  TODO: Testing only the the first protocol
+  """
 
-def test06_strings():
+  world_VIS_NIR_objs      = 9632
+  world_VIS_NIR_cli       = 344
+  #protocols = bob.db.nivl.Database().protocols()  
+  p = "idiap-search_2011-VIS-NIR_split1"
+  assert len(bob.db.nivl.Database().tobjects(protocol=p))   == world_VIS_NIR_objs 
+  assert len(bob.db.nivl.Database().tclients(protocol=p))   == world_VIS_NIR_cli
+  assert len(bob.db.nivl.Database().tmodel_ids(protocol=p)) == world_VIS_NIR_cli 
+  
+  #for p in protocols:
+  #  if "search" in p:
+  #    assert len(bob.db.nivl.Database().tobjects(protocol=p)) == world
+  #    assert len(bob.db.nivl.Database().tclients(protocol=p)) == world
+  #    assert len(bob.db.nivl.Database().tmodel_ids(protocol=p)) == world
+
+
+
+
+def test07_strings():
   
   db = bob.db.nivl.Database()
 
@@ -145,7 +164,6 @@ def test06_strings():
     for g in GROUPS:
       for u in PURPOSES:
         files = db.objects(purposes=u, groups=g, protocol=p)
-        import ipdb; ipdb.set_trace();
         for f in files:
           #Checking if the strings are correct 
           assert f.purpose  == u

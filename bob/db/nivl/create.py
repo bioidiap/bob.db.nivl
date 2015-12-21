@@ -300,7 +300,7 @@ def add_protocol_search(session, verbose = True):
       numpy.random.shuffle(client_indexes)
 
       clients = session.query(Client).all();
-      client_ids = [c.id for c in clients]
+      client_ids = numpy.array([c.id for c in clients])
 
       offset = 0
 
@@ -310,7 +310,8 @@ def add_protocol_search(session, verbose = True):
     
       for g in groups:
 
-        clients_per_group = client_ids[offset:offset+n_clients_per_group[g]]
+        indexes = client_indexes[offset:offset+n_clients_per_group[g]]
+        clients_per_group = client_ids[indexes]
         offset += n_clients_per_group[g]
       
         if verbose>=1: print("    Group %s " % g)

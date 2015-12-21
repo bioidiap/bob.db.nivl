@@ -50,7 +50,16 @@ setup(
       'bob.db': [
         'nivl = bob.db.nivl.driver:Interface',
       ],
+      
+      # scripts should be declared using this entry:
+      'console_scripts' : [
+        'plot_faces.py     = bob.db.nivl.scripts.plot_faces:main',
+        'evaluate_nivl.py  = bob.db.nivl.scripts.evaluate_nivl:main',
+        'html_report.py   = bob.db.nivl.scripts.html_report:main',        
+      ],      
+      
     },
+    
 
     classifiers = [
       'Development Status :: 4 - Beta',
