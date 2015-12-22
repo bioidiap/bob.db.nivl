@@ -54,7 +54,7 @@ def command_line_arguments(command_line_parameters):
 
   parser.add_argument('-e', '--extension', default=".hdf5", help = "The extension of the files.")
 
-  parser.add_argument('-p', '--protocol', default="idiap-search_2012-VIS-NIR_split1", help = "Protocol to be executed")
+  parser.add_argument('-p', '--protocol', default="idiap-search_2011-VIS-NIR_split1", help = "Protocol to be executed")
 
   # add verbose option
   bob.core.log.add_command_line_option(parser)
@@ -105,11 +105,12 @@ def generate_html_output(client_id, scores, img_dir, db, args):
 
   enroll_html = ""
   for e in enroll_files:
-    img      = normalize4save(bob.io.base.load(os.path.join(args.preprocess_dir, e.path)+args.extension))
+    img      = normalize4save(bob.io.base.load(os.path.join(args.preprocess_dir, e.path)+args.extension))    
     img_file = os.path.join(img_dir,e.path)+".jpg"
     bob.io.base.create_directories_safe(os.path.dirname(img_file))
     bob.io.base.save(img, img_file)
     enroll_html += "<img src='{0}'>".format(img_file.replace(args.output_dir,"./"))
+        
 
   genuine_html = "<tr><th colspan='3'><b>Client {0}</b></th></tr>\n".format(client_id)
   max_genuine_score = -numpy.inf
@@ -166,10 +167,10 @@ def main(command_line_parameters=None):
 
   html += " <p>Score file {0} </br> Protocol: {1} </br> Recognition rate: <b>{2}</b> </p>".format(args.score_file, args.protocol ,bob.measure.recognition_rate(bob.measure.load.cmc_four_column(args.score_file)))
   html += " <table border='0'>\n"
-  i = 1
+  i = 0
   for c in clients:
-    print("Processing client {0} of {1}".format(i, len(clients)))
     i = i + 1
+    print("Processing client {0} of {1}".format(i, len(clients)))    
     scores = get_scores_from_client(args.score_file, c.id)
     html += generate_html_output(c.id, scores, img_dir, db, args)
       
