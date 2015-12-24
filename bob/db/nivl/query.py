@@ -67,8 +67,7 @@ class Database(bob.db.verification.utils.SQLiteDatabase, bob.db.verification.uti
 
     #Checking inputs
     groups    = self.check_parameters_for_validity(groups, "group", GROUPS)
-    #protocols = self.check_parameters_for_validity(protocol, "protocol", PROTOCOLS) 
-    protocols = [protocol]
+    protocols = self.check_parameters_for_validity(protocol, "protocol", PROTOCOLS)    
     purposes  = self.check_parameters_for_validity(purposes, "purpose", PURPOSES)
 
     #You need to select only one protocol

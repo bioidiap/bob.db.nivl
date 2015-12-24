@@ -37,26 +37,18 @@ Base = declarative_base()
 """ Defining protocols. Yes, they are static """
 PROTOCOLS = ( 'idiap-comparison_2011-VIS-NIR', \
               'idiap-comparison_2012-VIS-NIR', \
-              'idiap-search_2011-VIS-NIR_split1', \
-              'idiap-search_2011-VIS-NIR_split2', \
-              'idiap-search_2011-VIS-NIR_split3', \
-              'idiap-search_2011-VIS-NIR_split4', \
-              'idiap-search_2011-VIS-NIR_split5', \
-              'idiap-search_2012-VIS-NIR_split1', \
-              'idiap-search_2012-VIS-NIR_split2', \
-              'idiap-search_2012-VIS-NIR_split3', \
-              'idiap-search_2012-VIS-NIR_split4', \
-              'idiap-search_2012-VIS-NIR_split5', \
-              'idiap-search_2011-VIS-VIS_split1', \
-              'idiap-search_2011-VIS-VIS_split2', \
-              'idiap-search_2011-VIS-VIS_split3', \
-              'idiap-search_2011-VIS-VIS_split4', \
-              'idiap-search_2011-VIS-VIS_split5', \
-              'idiap-search_2012-VIS-VIS_split1', \
-              'idiap-search_2012-VIS-VIS_split2', \
-              'idiap-search_2012-VIS-VIS_split3', \
-              'idiap-search_2012-VIS-VIS_split4', \
-              'idiap-search_2012-VIS-VIS_split5', \
+              'idiap-search_VIS-NIR_split1', \
+              'idiap-search_VIS-NIR_split2', \
+              'idiap-search_VIS-NIR_split3', \
+              'idiap-search_VIS-NIR_split4', \
+              'idiap-search_VIS-NIR_split5', \
+
+              'idiap-search_VIS-VIS_split1', \
+              'idiap-search_VIS-VIS_split2', \
+              'idiap-search_VIS-VIS_split3', \
+              'idiap-search_VIS-VIS_split4', \
+              'idiap-search_VIS-VIS_split5', \
+              
               'original_2011-2012', \
               'original_2012-2011')
 

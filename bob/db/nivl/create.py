@@ -272,106 +272,109 @@ def add_protocol_search(session, verbose = True):
   
     Here I will create 10 protocols (split):
 
-     - idiap-search_2011-VIS-NIR_split[1-5]
+     - idiap-search_VIS-NIR_split[1-5]
        - Training: 344 clients (pairs VIS-NIR)
        - Development: 230 clients. VIS Images from 2011 for enrollment and NIR images (both years) for probing
-    
-     - idiap-search_2012-VIS-NIR_split[1-5]
-       - Training: 344 clients (pairs VIS-NIR)
-       - Development: 230 clients. VIS Images from 2012 for enrollment and NIR images (both years) for probing
+                                   **** IF IS NOT POSSIBLE TO GET ONE IMAGE FROM 2011 FOR ENROLLMENT, GET THE FIRST FROM 2012 ****
 
   """
   n_clients_per_group = {'world':344,
                          'dev':230} #THE NUMBER OF CLIENTS IN EACH GROUP IS HARDCODED
-
-  years_enroll = [2011,2012] #Defining the capture year of the enrollment data
   groups       = ["dev", "world"]
 
   import numpy
   numpy.random.seed(10)  #Stabilizing the list
     
-  for year in years_enroll:
   
-    for split in range(1,6):
+  for split in range(1,6):
   
 
-      #Shuffle the clients
-      client_indexes = range(574)
-      numpy.random.shuffle(client_indexes)
+    #Shuffle the clients
+    client_indexes = range(574)
+    numpy.random.shuffle(client_indexes)
 
-      clients = session.query(Client).all();
-      client_ids = numpy.array([c.id for c in clients])
+    clients = session.query(Client).all();
+    client_ids = numpy.array([c.id for c in clients])
 
-      offset = 0
+    offset = 0
 
-      protocol = "idiap-search_{0}-VIS-NIR_split{1}".format(year,split)
-      protocol_VIS = "idiap-search_{0}-VIS-VIS_split{1}".format(year,split) #Protocol to do VIS-VIS comparison
+    protocol = "idiap-search_VIS-NIR_split{0}".format(split)
+    protocol_VIS = "idiap-search_VIS-VIS_split{0}".format(split) #Protocol to do VIS-VIS comparison
       
     
-      if verbose>=1: print("  Adding the protocol %s " % protocol)
+    if verbose>=1: print("  Adding the protocol %s " % protocol)
     
-      for g in groups:
+    for g in groups:
 
-        indexes = client_indexes[offset:offset+n_clients_per_group[g]]
-        clients_per_group = client_ids[indexes]
-        offset += n_clients_per_group[g]
+      indexes = client_indexes[offset:offset+n_clients_per_group[g]]
+      clients_per_group = client_ids[indexes]
+      offset += n_clients_per_group[g]
       
-        if verbose>=1: print("    Group %s " % g)
+      if verbose>=1: print("    Group %s " % g)
 
-        #Adding the world set data
-        if (g=='world'):
+      #Adding the world set data
+      if (g=='world'):
 
-          #Adding the VIS-NIR
-          query = session.query(File) \
-          .filter(File.client_id.in_(clients_per_group))        
-          for f in query.all():
-            _update(session,Protocol_File_Association(protocol, g, "train", f.id))
+        #Adding the VIS-NIR
+        query = session.query(File) \
+        .filter(File.client_id.in_(clients_per_group))        
+        for f in query.all():
+          _update(session,Protocol_File_Association(protocol, g, "train", f.id))
 
-          #Adding the VIS-VIS
-          query = session.query(File) \
-          .filter(File.client_id.in_(clients_per_group))\
-          .filter(File.modality == 'VIS')
+        #Adding the VIS-VIS
+        query = session.query(File) \
+        .filter(File.client_id.in_(clients_per_group))\
+        .filter(File.modality == 'VIS')
 
-          for f in query.all():
-            _update(session,Protocol_File_Association(protocol_VIS, g, "train", f.id))
+        for f in query.all():
+          _update(session,Protocol_File_Association(protocol_VIS, g, "train", f.id))
 
-
-
-        else:
+      else:
       
+        ## Inserting each client
+        for c in clients_per_group:
+
           #Adding the enrollment data - VIS-NIR and VIS-VIS
+          ## FIRST TRY TO FIND SOME 2011 images
           query = session.query(File) \
-          .filter(File.client_id.in_(clients_per_group)) \
+          .filter(File.client_id==str(c)) \
           .filter(File.modality == 'VIS') \
-          .filter(File.year == year)
-        
+          .filter(File.year == 2011)
+
+          files = query.all()
+          if(len(files) == 0):
+            #IF DOES NOT HAVE ANY FILE FROM 2011, TAKE THE FIRST FROM 2012
+            query = session.query(File) \
+            .filter(File.client_id==str(c)) \
+            .filter(File.modality == 'VIS') \
+            .filter(File.year == 2012)
+
+            files = query.all()
+            assert len(files)>0
+            files = [files[0]] #first from 2012
+
           for f in query.all():
             _update(session,Protocol_File_Association(protocol, g, "enroll", f.id))
             _update(session,Protocol_File_Association(protocol_VIS, g, "enroll", f.id))            
 
 
-          #Adding the probing data - VIS-NIR
-          query = session.query(File) \
-          .filter(File.client_id.in_(clients_per_group)) \
-          .filter(File.modality == 'NIR')
+        #Adding the probing data - VIS-NIR
+        query = session.query(File) \
+        .filter(File.client_id.in_(clients_per_group)) \
+        .filter(File.modality == 'NIR')
 
-          for f in query.all():
-            _update(session,Protocol_File_Association(protocol, g, "probe", f.id))
+        for f in query.all():
+          _update(session,Protocol_File_Association(protocol, g, "probe", f.id))
 
 
-          #Adding the probing data - VIS-VIS
-          if(year == 2011):
-            year_aux = 2012
-          else:
-            year_aux = 2011
-          
-          query = session.query(File) \
-          .filter(File.client_id.in_(clients_per_group)) \
-          .filter(File.modality == 'VIS') \
-          .filter(File.year == year_aux)
+        #Adding the probing data - VIS-VIS
+        query = session.query(File) \
+        .filter(File.client_id.in_(clients_per_group)) \
+        .filter(File.modality == 'VIS') \
+        .filter(File.year == '2012')
 
-          for f in query.all():
-            _update(session,Protocol_File_Association(protocol_VIS, g, "probe", f.id))
+        for f in query.all():
+          _update(session,Protocol_File_Association(protocol_VIS, g, "probe", f.id))
 
 
 
@@ -417,7 +420,7 @@ def create(args):
   add_clients_files(s, args.image_dir, args.annotation_dir, args.verbose)
   add_protocol_search(s, args.verbose)
   add_protocols_original(s, args.verbose)
-  add_protocol_comparison(s, args.verbose)
+  #add_protocol_comparison(s, args.verbose)
 
   s.commit()
   s.close()

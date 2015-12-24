@@ -53,9 +53,10 @@ setup(
       
       # scripts should be declared using this entry:
       'console_scripts' : [
-        'plot_faces.py     = bob.db.nivl.scripts.plot_faces:main',
-        'evaluate_nivl.py  = bob.db.nivl.scripts.evaluate_nivl:main',
-        'html_report.py   = bob.db.nivl.scripts.html_report:main',        
+        'plot_faces.py                     = bob.db.nivl.scripts.plot_faces:main',
+        'evaluate_nivl.py                  = bob.db.nivl.scripts.evaluate_nivl:main',
+        'html_report.py                    = bob.db.nivl.scripts.html_report:main',
+        'overlapped_score_distributions.py = bob.db.nivl.scripts.overlapped_score_distributions:main',
       ],      
       
     },
