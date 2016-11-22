@@ -2,7 +2,7 @@
 .. @author: Tiago de Freitas Pereira <tiago.pereira@idiap.ch>
 .. @date:   Mon Oct 19 11:10:18 CEST 2015
 
-.. _bob.db.ldhf:
+.. _bob.db.nivl:
 
 ===================================================
 Near-Infrared and Visible-Light (NIVL) Dataset

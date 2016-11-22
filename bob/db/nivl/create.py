@@ -42,6 +42,7 @@ import os
 
 from .models import *
 from .models import PROTOCOLS, GROUPS, PURPOSES
+import pkg_resources
 
 
 def _update(session, field):
@@ -61,6 +62,7 @@ def add_clients_files(session, image_dir, annotation_dir, verbose = True):
   label_files = ['D90-set-labels.csv','NIR-set-labels.csv'] # Files with the labels ({image list path},{subject identifier})
   
   clients  = {} #Controling the clients and the sessions captured for each client
+  file_id_offset = 0
   
   for lf in label_files:
 
@@ -86,7 +88,7 @@ def add_clients_files(session, image_dir, annotation_dir, verbose = True):
 
       year    = int(image_list.split("/")[2][0:4])
       capture_session = clients[client_name]
-      add_files(session, client_name, os.path.join(image_dir,image_list), modality=modality, year=year, capture_session=capture_session,annotation_dir=annotation_dir, verbose=verbose)
+      file_id_offset = add_files(session, file_id_offset, client_name, os.path.join(image_dir,image_list), modality=modality, year=year, capture_session=capture_session,annotation_dir=annotation_dir, verbose=verbose)
   
       
 
@@ -99,22 +101,24 @@ def add_client(session, client_name, verbose = True):
   
 
 
-def add_files(session, client_name, image_list, modality, year, capture_session, annotation_dir, verbose = True):
+def add_files(session, file_id_offset, client_name, image_list, modality, year, capture_session, annotation_dir, verbose = True):
 
   """Adds the Files from an image list"""
   
-  images = open(image_list).readlines()  
+  images = open(image_list).readlines()
   for i in images:
     image_name,_ = os.path.splitext(i.rstrip("\n"))
     if verbose>=1: print("  Adding file {0}".format(image_name))      
 
-    f = File(client_id = client_name, image_name = image_name, modality=modality, session=capture_session, year=year)
+    file_id_offset += 1
+    f = File(file_id=file_id_offset, client_id = client_name, image_name = image_name, modality=modality, session=capture_session, year=year)
     session.add(f)
     session.flush()
     session.refresh(f)
     
     annotation_filename = os.path.join(annotation_dir, i.rstrip("\n")) + ".pos"
-    add_annotations(session, f.id, annotation_filename , verbose = True)
+    add_annotations(session, file_id_offset, annotation_filename , verbose = True)
+  return file_id_offset
 
 
 def add_annotations(session, file_id, annotation_filename, verbose = True):
@@ -417,7 +421,8 @@ def create(args):
   # the real work...
   create_tables(args)
   s = session_try_nolock(args.type, args.files[0], echo=(args.verbose >= 2))
-  add_clients_files(s, args.image_dir, args.annotation_dir, args.verbose)
+  annotation_dir = pkg_resources.resource_filename(__name__, "./data/annotations/")
+  add_clients_files(s, args.image_dir, annotation_dir, args.verbose)
   add_protocol_search(s, args.verbose)
   add_protocols_original(s, args.verbose)
   #add_protocol_comparison(s, args.verbose)
@@ -432,7 +437,6 @@ def add_command(subparsers):
 
   parser.add_argument('-r', '--recreate', action='store_true', help='If set, I\'ll first erase the current database')
   parser.add_argument('-v', '--verbose', action='count', help='Increase verbosity?')
-  parser.add_argument('-d', '--image-dir', default='', help="Change the relative path to the directory containing the images of the NIVL database.")
-  parser.add_argument('-a', '--annotation-dir', default='./bob/db/nivl/data/annotations',  help="The annotation directory. HAS TO BE THE SAME STRUCTURE AS PROVIDED BY THE DATABASE PROVIDERS (defaults to %(default)s)")
+  parser.add_argument('-d', '--image-dir', default='/idiap/resource/database/nivl/nivl-dataset-v1.0/', help="Change the relative path to the directory containing the images of the NIVL database.")
 
   parser.set_defaults(func=create) #action
