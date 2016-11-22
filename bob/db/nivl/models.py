@@ -28,7 +28,7 @@ from bob.db.base.sqlalchemy_migration import Enum, relationship
 from sqlalchemy.orm import backref
 from sqlalchemy.ext.declarative import declarative_base
 
-import bob.db.verification.utils
+import bob.db.base
 
 import os
 
@@ -103,7 +103,7 @@ class Annotation(Base):
 
 
 
-class File(Base, bob.db.verification.utils.File):
+class File(Base,  bob.db.base.File):
   """
   Information about the files of the LDHF database.
 
@@ -114,7 +114,7 @@ class File(Base, bob.db.verification.utils.File):
 
   modality_choices = ('VIS', 'NIR')
 
-  id        = Column(Integer, primary_key=True, autoincrement=True)
+  id        = Column(Integer, primary_key=True)
   path      = Column(String(100), unique=True)
   client_id = Column(Integer, ForeignKey('client.id'))
   modality  = Column(Enum(*modality_choices))
@@ -125,9 +125,10 @@ class File(Base, bob.db.verification.utils.File):
   client      = relationship("Client", backref=backref("files", order_by=id))
   all_annotations = relationship("Annotation", backref=backref("file"), uselist=True)
 
-  def __init__(self, image_name, client_id, modality, session, year):
+  def __init__(self, file_id, image_name, client_id, modality, session, year):
     # call base class constructor
-    bob.db.verification.utils.File.__init__(self, client_id = client_id, path = image_name)
+    bob.db.base.File.__init__(self, file_id = file_id, path = image_name)    
+    self.client_id = client_id    
     self.modality = modality
     self.session  = session
     self.year     = year

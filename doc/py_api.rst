@@ -6,4 +6,4 @@
  Long Distance Heterogeneous Face Database (LDHF-DB)
 ====================================================
 
-.. automodule:: bob.db.ldhf
+.. automodule:: bob.db.nivl

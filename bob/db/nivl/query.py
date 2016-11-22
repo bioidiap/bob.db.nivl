@@ -25,11 +25,9 @@ from .models import PROTOCOLS, GROUPS, PURPOSES
 
 from .driver import Interface
 
-import bob.db.verification.utils
-
 SQLITE_FILE = Interface().files()[0]
 
-class Database(bob.db.verification.utils.SQLiteDatabase, bob.db.verification.utils.ZTDatabase):
+class Database(bob.db.base.SQLiteDatabase):
 
   """Wrapper class for the Near-Infrared and Visible-Light (NIVL) Dataset
 
@@ -37,8 +35,10 @@ class Database(bob.db.verification.utils.SQLiteDatabase, bob.db.verification.uti
 
   def __init__(self, original_directory = None, original_extension = None):
     # call base class constructors to open a session to the database
-    bob.db.verification.utils.SQLiteDatabase.__init__(self, SQLITE_FILE, File)
-    bob.db.verification.utils.ZTDatabase.__init__(self, original_directory=original_directory, original_extension=original_extension)
+
+    super(Database, self).__init__(SQLITE_FILE, File)
+    self.original_directory = original_directory
+    self.original_extension = original_extension
 
   
   def protocols(self):
@@ -49,11 +49,15 @@ class Database(bob.db.verification.utils.SQLiteDatabase, bob.db.verification.uti
 
 
   def annotations(self, file, annotation_type="eyes_center"):
-    """This function returns the annotations for the given file id as a dictionary.
-    Keyword parameters:
-    file : :py:class:`bob.db.verification.utils.File` or one of its derivatives
+    """
+    This function returns the annotations for the given file id as a dictionary.
+    
+    **Parameters**
+    
+    file: :py:class:`bob.db.base.File`
       The File object you want to retrieve the annotations for,
-    Return value:
+
+    **Return**
       A dictionary of annotations, for face images usually something like {'leye':(le_y,le_x), 'reye':(re_y,re_x), ...},
       or None if there are no annotations for the given file ID (which is the case in this base class implementation).
     """    

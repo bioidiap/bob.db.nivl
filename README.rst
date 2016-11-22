@@ -3,10 +3,22 @@
 .. Thu Apr 16 16:39:01 CEST 2015
 
 
-.. image:: https://img.shields.io/badge/github-master-0000c0.png
-   :target: https://github.com/bioidiap/bob.db.nivl/tree/master
+
+.. image:: http://img.shields.io/badge/docs-stable-yellow.png
+   :target: http://pythonhosted.org/bob.db.nivl/index.html
+.. image:: http://img.shields.io/badge/docs-latest-orange.png
+   :target: https://www.idiap.ch/software/bob/docs/latest/bob/bob.db.nivl/master/index.html
+.. image:: https://gitlab.idiap.ch/bob/bob.db.cuhk_cufs/badges/master/build.svg
+   :target: https://gitlab.idiap.ch/bob/bob.db.nivl/commits/master
+.. image:: https://img.shields.io/badge/gitlab-project-0000c0.svg
+   :target: https://gitlab.idiap.ch/bob/bob.db.nivl
+.. image:: http://img.shields.io/pypi/v/bob.db.nivl.png
+   :target: https://pypi.python.org/pypi/bob.db.nivl
+.. image:: http://img.shields.io/pypi/dm/bob.db.cuhk_cufs.png
+   :target: https://pypi.python.org/pypi/bob.db.nivl
 .. image:: https://img.shields.io/badge/original-data--files-a000a0.png
    :target: http://www3.nd.edu/~kwb/publications.htm
+
 
 =======================================================
 Near-Infrared and Visible-Light (NIVL) Dataset
@@ -21,61 +33,24 @@ It includes 574 identities faces captured in both VIS and NIR.
 
   Bernhard, John, et al. "Near-IR to Visible Light Face Matching: Effectiveness of Pre-Processing Options for Commercial Matchers."
 
+Installation
+------------
 
-You would normally not install this package unless you are maintaining it. 
-What you would do instead is to tie it in at the package you need to **use** it.
-There are a few ways to achieve this:
+Follow our `installation`_ instructions. Then, using the Python interpreter
+provided by the distribution, bootstrap and buildout this package::
 
-1. You can add this package as a requirement at the ``setup.py`` for your own
-   `satellite package
-   <https://github.com/idiap/bob/wiki/Virtual-Work-Environments-with-Buildout>`_
-   or to your Buildout ``.cfg`` file, if you prefer it that way. With this
-   method, this package gets automatically downloaded and installed on your
-   working environment, or
+  $ python bootstrap-buildout.py
+  $ ./bin/buildout
 
-2. You can manually download and install this package using commands like
-   ``easy_install`` or ``pip``.
 
-The package is available in two different distribution formats:
+Contact
+-------
 
-1. You can download it from `PyPI <http://pypi.python.org/pypi>`_, or
+For questions or reporting issues to this software package, contact our
+development `mailing list`_.
 
-2. You can download it in its source form from `its git repository
-   <https://github.com/bioidiap/bob.db.nivl>`_.
 
-You can mix and match points 1/2 and a/b above based on your requirements. Here
-are some examples:
-
-Modify your setup.py and download from PyPI
-===========================================
-
-That is the easiest. Edit your ``setup.py`` in your satellite package and add
-the following entry in the ``install_requires`` section (note: ``...`` means
-`whatever extra stuff you may have in-between`, don't put that on your
-script)::
-
-    install_requires=[
-      ...
-      "bob.db.nivl",
-    ],
-
-Proceed normally with your ``boostrap/buildout`` steps and you should be all
-set. That means you can now import the ``bob.db.nivl`` namespace into your scripts.
-
-Modify your buildout.cfg and download from git
-==============================================
-
-You will need to add a dependence to `mr.developer
-<http://pypi.python.org/pypi/mr.developer/>`_ to be able to install from our
-git repositories. Your ``buildout.cfg`` file should contain the following
-lines::
-
-  [buildout]
-  ...
-  extensions = mr.developer
-  auto-checkout = *
-  eggs = bob.db.nivl
-
-  [sources]
-  bob.db.nivl = git https://github.com/bioidiap/bob.db.nivl.git
-  ...
+.. Place your references here:
+.. _bob: https://www.idiap.ch/software/bob
+.. _installation: https://gitlab.idiap.ch/bob/bob/wikis/Installation
+.. _mailing list: https://groups.google.com/forum/?fromgroups#!forum/bob-devel
