@@ -5,9 +5,9 @@
 
 
 .. image:: http://img.shields.io/badge/docs-stable-yellow.png
-   :target: https://www.idiap.ch/software/bob/docs/bob/bob.db.nivl/stable/index.html
+   :target: http://beatubulatest.lab.idiap.ch/private/docs/bob/bob.db.nivl/stable/index.html
 .. image:: http://img.shields.io/badge/docs-latest-orange.png
-   :target: https://www.idiap.ch/software/bob/docs/bob/bob.db.nivl/master/index.html
+   :target: http://beatubulatest.lab.idiap.ch/private/docs/bob/bob.db.nivl/master/index.html
 .. image:: https://gitlab.idiap.ch/bob/bob.db.cuhk_cufs/badges/master/build.svg
    :target: https://gitlab.idiap.ch/bob/bob.db.nivl/commits/master
 .. image:: https://img.shields.io/badge/gitlab-project-0000c0.svg
