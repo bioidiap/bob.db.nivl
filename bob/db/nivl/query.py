@@ -211,8 +211,15 @@ class Database(bob.db.base.SQLiteDatabase):
     return self.zobjects(protocol=protocol)
 
 
-
   def tmodel_ids(self, groups = None, protocol = None, **kwargs):
     """This function returns the ids of the T-Norm models of the given groups for the given protocol."""
     return ["t_"+str(c.id) for c in self.tclients(protocol=protocol)]
+
+  @property
+  def modality_separator(self):
+      return "photo"
+
+  @property
+  def modalities(self):
+      return ['photo', 'sketch']
 
