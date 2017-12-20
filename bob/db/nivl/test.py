@@ -104,20 +104,23 @@ def test03_idiap_comparison_protocols():
 
 def test04_idiap_search_protocols():
 
-  idiap_search_VIS_NIR_splitn = [ {'world':14432, 'dev-enroll':606, 'dev-probe':9108},
-                                  {'world':14966, 'dev-enroll':597, 'dev-probe':8609},
-                                  {'world':14332, 'dev-enroll':622, 'dev-probe':9174},
-                                  {'world':14420, 'dev-enroll':617, 'dev-probe':9112},
-                                  {'world':15243, 'dev-enroll':581, 'dev-probe':8357}
+  idiap_search_VIS_NIR_splitn = [ {'world-vis':1387, 'world-nir':13045, 'dev-enroll':606, 'dev-probe':9108},
+                                  {'world-vis':1422, 'world-nir':13544, 'dev-enroll':597, 'dev-probe':8609},
+                                  {'world-vis':1353, 'world-nir':12979, 'dev-enroll':622, 'dev-probe':9174},
+                                  {'world-vis':1379, 'world-nir':13041, 'dev-enroll':617, 'dev-probe':9112},
+                                  {'world-vis':1447, 'world-nir':13796, 'dev-enroll':581, 'dev-probe':8357}
                                 ]
 
   #Testing first protocol
   for i in range(1,6):
     protocol = "idiap-search_VIS-NIR_split%s"%i
-    assert len(bob.db.nivl.Database().objects(protocol=protocol, groups='world'))                   == idiap_search_VIS_NIR_splitn[i-1]['world']
+    assert len(bob.db.nivl.Database().objects(protocol=protocol, groups='world'))                   == idiap_search_VIS_NIR_splitn[i-1]['world-vis'] + idiap_search_VIS_NIR_splitn[i-1]['world-nir']
     assert len(bob.db.nivl.Database().objects(protocol=protocol, groups='dev', purposes="enroll"))  == idiap_search_VIS_NIR_splitn[i-1]['dev-enroll']
     assert len(bob.db.nivl.Database().objects(protocol=protocol, groups='dev', purposes="probe"))   == idiap_search_VIS_NIR_splitn[i-1]['dev-probe']
 
+    # Checking the modalities
+    assert len(bob.db.nivl.Database().objects(protocol=protocol, groups="world", modality=["VIS"])) == idiap_search_VIS_NIR_splitn[i-1]['world-vis']
+    assert len(bob.db.nivl.Database().objects(protocol=protocol, groups="world", modality=["NIR"])) == idiap_search_VIS_NIR_splitn[i-1]['world-nir']
 
 
 def test05_idiap_search_protocols_enroll():
