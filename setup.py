@@ -22,10 +22,14 @@ from setuptools import setup, find_packages
 from bob.extension.utils import load_requirements
 install_requires = load_requirements()
 
+# Define package version
+version = open("version.txt").read().rstrip()
+
+
 setup(
 
     name='bob.db.nivl',
-    version='0.0.0a1',
+    version=version,
     description='Near-Infrared and Visible-Light (NIVL) Dataset',
     url='',
     license='BSD',
@@ -53,9 +57,6 @@ setup(
       
       # scripts should be declared using this entry:
       'console_scripts' : [
-        'plot_faces.py                     = bob.db.nivl.scripts.plot_faces:main',
-        'evaluate_nivl.py                  = bob.db.nivl.scripts.evaluate_nivl:main',
-        'html_report.py                    = bob.db.nivl.scripts.html_report:main',
         'overlapped_score_distributions.py = bob.db.nivl.scripts.overlapped_score_distributions:main',
       ],      
       
