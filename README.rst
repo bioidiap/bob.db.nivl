@@ -5,7 +5,7 @@
 
 
 .. image:: http://img.shields.io/badge/docs-stable-yellow.png
-   :target: http://beatubulatest.lab.idiap.ch/private/docs/bob/bob.db.nivl/stable/index.html
+   :target: https://www.idiap.ch/software/bob/docs/bob/bob.db.nivl/stable/index.html
 .. image:: http://img.shields.io/badge/docs-latest-orange.png
    :target: http://beatubulatest.lab.idiap.ch/private/docs/bob/bob.db.nivl/master/index.html
 .. image:: https://gitlab.idiap.ch/bob/bob.db.cuhk_cufs/badges/master/build.svg
