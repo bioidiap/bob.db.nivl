@@ -34,11 +34,9 @@ It includes 574 identities faces captured in both VIS and NIR.
 Installation
 ------------
 
-Follow our `installation`_ instructions. Then, using the Python interpreter
-provided by the distribution, bootstrap and buildout this package::
+Follow our `installation`_ instructions. Then, to install this package, run::
 
-  $ python bootstrap-buildout.py
-  $ ./bin/buildout
+  $ conda install bob.db.nivl
 
 
 Contact
